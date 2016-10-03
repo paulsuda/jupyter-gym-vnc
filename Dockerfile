@@ -27,7 +27,6 @@ RUN apt-get update \
 
 # Jupyter Notebook
 EXPOSE 8888
-VOLUME /mnt/notebooks
 
 # TensorBoard
 EXPOSE 6006
@@ -40,6 +39,7 @@ WORKDIR /opt
 RUN git clone https://github.com/openai/gym.git && pip install -e './gym[all]'
 
 COPY "container-start.sh" "/opt/container-start.sh"
+COPY "xsession-start.sh" "/opt/xsession-start.sh"
 RUN chmod +x "/opt/container-start.sh" "/opt/xsession-start.sh"
 
 WORKDIR /root
