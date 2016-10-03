@@ -1,19 +1,14 @@
 #!/bin/bash
+#
+
+# Set defaults, allow overrides by setting these in docker -e environment variables.
+: ${SET_VNC_PASS:=1234}
+: ${X11_DISPLAY_NO:=99}
+: ${X11_DISPLAY_GEOMETRY:=1024x768x24}
 
 # VNC server environment: set password
-VNCPASS=1234
 mkdir ~/.vnc
-x11vnc -storepasswd "$VNCPASS" ~/.vnc/passwd
+x11vnc -storepasswd "$SET_VNC_PASS" ~/.vnc/passwd
 
 # Virtual X server
-/usr/bin/xvfb-run -n 99 -s "-screen 0 1024x768x24" bash
-
-# X11 environment, window manager, notebook start
-DISPLAY=:99
-ratpoison &
-
-# Start notebook server
-xterm -e '/usr/local/bin/jupyter-notebook --no-browser --ip=0.0.0.0 --notebook-dir=/mnt/notebooks'
-
-# VNC server
-x11vnc --usepw --forever
+/usr/bin/xvfb-run -n "$X11_DISPLAY_NO" -s "-screen 0 $X11_DISPLAY_GEOMETRY" "/opt/xsession-start.sh"
