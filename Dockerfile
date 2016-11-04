@@ -1,5 +1,5 @@
 
-# Started with the Tensorflow
+# Started with the Tensorflow image
 FROM b.gcr.io/tensorflow/tensorflow
 
 # Install open ai gym requirements and X11 stuff
@@ -22,6 +22,7 @@ RUN apt-get update \
         x11vnc \
         ratpoison \
         xterm \
+        python-tk \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /root/.cache/pip/
 
